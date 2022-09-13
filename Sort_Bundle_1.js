@@ -8,7 +8,7 @@ const fs = require("fs");
 
 // 測試json檔案路徑
 //var testFilePath = "./TestFiles/bundle_test_1.json";
-var testFilePath = "./TestFiles/Bundle-bun-example-tw-1.json";
+var testFilePath = "./TestFiles/Bundle-bun-example-tw-1_1.json";
 
 // 寫出排序過之檔案路徑
 var outputFilePath = "./Output/SortedBundle.json"
@@ -21,9 +21,9 @@ function main() {
     console.log(`==========排序Bundle========`);
     console.log(`# 排序前資料筆數 ${testData.entry.length}`);
     console.log(`============================`);
-    let sortedBundle = sortBundle(testData,getBundleSortList(testData));
+    let sortedBundle = sortBundle(testData, getBundleSortList(testData));
     console.log(`==========寫入檔案==========`);
-    fs.writeFileSync(outputFilePath,JSON.stringify(sortedBundle));
+    fs.writeFileSync(outputFilePath, JSON.stringify(sortedBundle));
     console.log(`============================`);
     console.log(`# 排序後資料筆數 ${sortedBundle.entry.length}`);
     console.log(`==========完成==============`);
@@ -65,10 +65,12 @@ function getBundleSortList(inputData) {
     for (let i = 0; i < entryData.length; i++) {
         let objRef = getObjectReferences(entryData[i], undefined);
         refList.push(objRef);
-        if(maxTryTimes < objRef.References.length) {
+        if (maxTryTimes < objRef.References.length) {
             maxTryTimes = objRef.References.length;
         }
     }
+
+    //console.log(refList);
 
     // 已嘗試列表幾次
     let triedTimes = 1;
@@ -138,9 +140,10 @@ function getObjectReferences(inputData, output) {
             getObjectReferences(inputData[dataFields[i]], output);
         }
         // 如果是個陣列
-        else if(typeof (inputData[dataFields[i]]) == "array")
-        {
-            
+        else if (typeof (inputData[dataFields[i]]) == "array") {
+            for (let j = 0; j < inputData[dataFields[i]].length; j++) {
+                getObjectReferences(inputData[dataFields[i]][j], output);
+            }
         }
     }
     return output;

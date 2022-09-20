@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/kevin20888802/FHIR_TestScripts/issues"
   },
-  "homepage": "https://github.com/kevin20888802/FHIR_TestScripts#readme"
+  "homepage": "https://github.com/kevin20888802/FHIR_TestScripts#readme",
+  "dependencies": {
+    "mongoose": "^6.6.1"
+  }
 }
